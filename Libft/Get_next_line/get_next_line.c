@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 10:07:14 by poriou            #+#    #+#             */
-/*   Updated: 2024/03/30 15:28:00 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/03/31 14:42:55 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ char	*parse_line(int fd, char *buf, char *saved)
 			break ;
 		buf[reading] = '\0';
 		if (!saved)
+		{
 			saved = gl_strdup("");
+			if (!saved)
+				return (NULL);
+		}
 		tmp = saved;
 		saved = gl_strjoin(tmp, buf);
 		free(tmp);
