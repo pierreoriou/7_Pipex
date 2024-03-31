@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:56:27 by poriou            #+#    #+#             */
-/*   Updated: 2024/01/22 15:33:23 by poriou           ###   ########.fr       */
+/*   Updated: 2024/03/31 15:14:05 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static char	**ft_extractwords(char **arr, char const *s, char *charset)
 		if (i > j)
 		{
 			arr[k] = ft_strndup(s + j, i - j);
-			ft_checkleaks(arr, k);
+			if (ft_checkleaks(arr, k) == NULL)
+				return (NULL);
 			k++;
 		}
 	}
@@ -71,6 +72,6 @@ char	**ft_split(char const *s, char *set)
 	arr = (char **)malloc(sizeof(char *) * (ft_countwords((char *)s, set) + 1));
 	if (!arr)
 		return (NULL);
-	ft_extractwords(arr, s, set);
+	arr = ft_extractwords(arr, s, set);
 	return (arr);
 }
