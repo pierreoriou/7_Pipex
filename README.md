@@ -1,11 +1,15 @@
 # PIPEX
-I.	COMPRENDRE PIPEX
-II.	CODER PIPEX
+
+#### TABLE DES MATIERES
+- [I.  COMPRENDRE PIPEX](#i-comprendre-pipex)
+- [II. CODER PIPEX](#ii-coder-pipex)
+
+---
 
 ### I.	COMPRENDRE PIPEX
-
-__A. Objectifs du projet__
-
+__
+#### A. Objectifs du projet
+__
 Créer un programme qui recréé le comportement de la commande shell :
 
     < file1 cmd1 | cmd2 > file2
@@ -13,14 +17,14 @@ Créer un programme qui recréé le comportement de la commande shell :
 - _file1_ et _file2_ sont des <ins>fichiers</ins>.
 - _cmd1_ et _cmd2_ sont des <ins>commandes shell</ins>.
 
-__B. Qu'est-ce qu'une commande ?__
-
+#### B. Qu'est-ce qu'une commande ?
+__
 Une commande, dans le contexte des systèmes d'exploitation de type Unix, est essentiellement <ins>un programme exécutable qui peut être appelé depuis le terminal</ins> ou depuis un script shell. Lorsqu'une commande est exécutée dans un terminal Unix, des arguments sont souvent fournis à cette commande pour spécifier son comportement ou les données sur lesquelles elle doit agir.
 <ins>La "standard input" (stdin ou entrée standard) d'une commande est la source de données à partir de laquelle cette commande lit.</ins> Par défaut, dans un terminal, l'entrée standard d'une commande est associée au clavier. Ainsi, lorsque vous tapez quelque chose dans un terminal et appuyez sur Entrée, ce que vous tapez devient l'entrée standard pour la commande en cours d'exécution.
 Enfin, <ins>la "standard output" (stdout ou sortie standard) est l'endroit où la commande écrit ses résultats.</ins> Ces entrées et sorties peuvent être redirigées vers différents flux, tels que des fichiers, d'autres commandes (via des pipes), ou le terminal lui-même.
 
-__C. Fonctionnement de la commande < file1 cmd1 | cmd2 > file2__
-
+#### C. Fonctionnement de la commande < file1 cmd1 | cmd2 > file2
+__
 Prenons l'exemple de la commande ci-dessous et décrivons son comportement précis.
 
     < infile grep a1 | wc -w > outfile
@@ -47,8 +51,8 @@ Ensuite, wc -w comptera le nombre de mots dans cette ligne, ce qui donnera "3", 
 
 Ainsi, outfile contiendra "3", car c'est le nombre de mots dans les lignes contenant "a1" dans infile.
 
-__D. Attention aux contextes particuliers__
-
+#### D. Attention aux contextes particuliers
+__
 Prenons l'exemple de la commande ci-dessous et décrivons son comportement précis.
 
     < infile ls -l | wc -l > outfile
@@ -59,9 +63,28 @@ Le fait d'inclure < infile avant ls -l a pour effet de rediriger le contenu du f
 
 Ainsi, dans ce cas précis, l'utilisation de < infile est superflue car elle n'affecte pas la sortie de ls -l. La commande ls -l affichera toujours le contenu du répertoire courant, qu'il y ait une redirection d'entrée ou non.
 
-__E. Les nouvelles fonctions autorisées__
-
+#### E. Les nouvelles fonctions autorisées
+__
 - __access__ : Cette fonction vérifie si le processus appelant peut accéder à un fichier (si le fichier existe et si le processus a les permissions appropriées pour le lire, l'écrire ou l'exécuter).
+
+> __#include <unistd.h>__
+__int access(const char *pathname, int mode);__
+
+> __MAN ACCESS__ : access()  checks  whether  the  calling process can access
+the file pathname. If pathname is a symbolic link, it is dereferenced.
+The mode specifies the accessibility check(s) to be performed,
+and is either  the value  F_OK, or a mask consisting of the bitwise OR
+of one or more of R_OK, W_OK, and X_OK.  F_OK tests for the existence
+of the file.  R_OK, W_OK, and  X_OK  test whether  the file exists and
+grants read, write, and execute permissions, respectively.
+
+> __RETURN VALUE__
+_<ins>On  success</ins>  (all requested permissions granted, or mode is F_OK and
+the file exists), <ins>zero is returned</ins>_.
+
+><ins>On error</ins> (at least one bit in mode asked for a  permission  that  is denied, or
+mode is F_OK and the file does not exist, or some other error occurred), <ins>-1 is
+returned, and errno is set appropriately</ins>.
 
 - __dup__ : Cette fonction duplique un descripteur de fichier ouvert, créant ainsi un nouveau descripteur de fichier qui se réfère à la même description de fichier ouverte.
 
@@ -79,8 +102,8 @@ __E. Les nouvelles fonctions autorisées__
 
 - __waitpid__ : Cette fonction est similaire à wait, mais permet au processus appelant d'attendre un processus enfant spécifique spécifié par son identifiant de processus (PID). Elle offre plus de contrôle sur le processus enfant à attendre.
 
-__F. L'enjeu majeur : la manipulation de processus__
-
+#### F. L'enjeu majeur : la manipulation de processus
+__
 _Qu'est-ce qu'un processus ?_
 
 Un processus en C est une instance d'un programme en cours d'exécution sur un système d'exploitation. Chaque processus possède sa propre mémoire, son propre espace d'adressage, ses variables et ses instructions d'exécution. Les processus sont la manière dont le système d'exploitation isole et gère l'exécution des différents programmes sur l'ordinateur.
@@ -95,8 +118,8 @@ Voici quelques caractéristiques clés des processus en C :
 
 - __Création et gestion par le système d'exploitation__ : Les processus sont créés et gérés par le système d'exploitation. Le système d'exploitation alloue les ressources nécessaires à chaque processus, les planifie pour l'exécution sur le processeur et les termine une fois qu'ils ont terminé leur tâche.
 
-__G. Autres enjeux__
-
+#### G. Autres enjeux
+__
 Outre la manipulation de processus, les aspects importants du projet sont :
 
 - __Gestion des fichiers__ : La manipulation correcte des fichiers est essentielle, y compris l'ouverture, la lecture, l'écriture et la fermeture des fichiers impliqués dans le processus. Cela comprend également la gestion des erreurs liées à l'accès ou à la manipulation des fichiers.
@@ -110,3 +133,29 @@ Outre la manipulation de processus, les aspects importants du projet sont :
 - __Communication inter-processus__ : Les processus enfants doivent être capables de communiquer entre eux, en particulier pour transmettre la sortie de cmd1 à l'entrée de cmd2. Cela implique souvent l'utilisation de tubes (pipes) pour établir une communication bidirectionnelle entre les processus.
 
 - __Gestion des ressources système__ : Le programme doit être conçu de manière à utiliser efficacement les ressources système telles que la mémoire, le processeur et les descripteurs de fichiers. Cela comprend la libération des ressources une fois qu'elles ne sont plus nécessaires pour éviter les fuites de mémoire ou les ressources non fermées.
+
+---
+### II.	CODER PIPEX
+__
+#### A. Parsing ou traitement des arguments des lignes de commandes.
+__
+__GENERAL :__
+[x] Argc doit être 5.
+
+__FILE 1 :__
+[x] L'argument 1 ne doit pas être une chaine de caractères vide.
+[x] L'argument 1 ne doit pas être une chaine contenant que des espaces.
+[x] L'argument 1 ne doit contenir que des caracteres autorisés.
+[x] L'argument 1 ne doit pas contenir plus de 255 caractères.
+[x] L'argument 1 doit être un chemin de fichier ou dossier existant.
+[x] L'argument 1 doit être le chemin d'un fichier et non d'un dossier.
+[x] L'argument 1 doit avoir la permission READ.
+
+__FILE 2 :__
+[ ] L'argument 4 doit être un nom de fichier ou document ou un chemin, et qui doit être créé s'il n'existe pas.
+[ ] L'argument 4, s'il existe déjà, doit être un fichier et non un dossier.
+[ ] Si un dossier du nom de l'argument 4 existe, peut-être créer un fichier.
+[ ] Le contenu de l'argument 4 doit être vérifié pour savoir s'il faut écrire dedans.
+
+__COMMANDS :__
+[ ] Les arguments 2 et 3 doivent être des commandes shell valides.

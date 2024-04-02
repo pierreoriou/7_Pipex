@@ -92,7 +92,7 @@ ${OBJS_DIR}/%.o: %.c ${INCLUDES}
 	${CC} ${FLAGS} -c $< -o $@
 
 clean:
-	rm -r ${OBJS_DIR}
+	rm -rf ${OBJS_DIR}
 
 fclean: clean
 	rm -rf ${NAME}
