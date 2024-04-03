@@ -11,6 +11,11 @@ SRCS =	main.c \
 		parsing/check_file_exists.c \
 		parsing/check_file_isdir.c \
 		parsing/check_file1_permissions.c \
+		parsing/check_folder_permissions.c \
+		parsing/parse_command1.c \
+		parsing/check_command_isempty.c \
+		parsing/check_command_isspace.c \
+		parsing/check_command_executability.c \
 
 CC = gcc -g3
 

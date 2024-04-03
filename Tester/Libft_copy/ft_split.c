@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 17:56:27 by poriou            #+#    #+#             */
-/*   Updated: 2024/03/31 15:14:05 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/03 14:01:52 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_strndup(const char *s, size_t n)
+static char	*ftsplit_strndup(const char *s, size_t n)
 {
 	char	*dup;
 
@@ -53,7 +53,7 @@ static char	**ft_extractwords(char **arr, char const *s, char *charset)
 			i++;
 		if (i > j)
 		{
-			arr[k] = ft_strndup(s + j, i - j);
+			arr[k] = ftsplit_strndup(s + j, i - j);
 			if (ft_checkleaks(arr, k) == NULL)
 				return (NULL);
 			k++;

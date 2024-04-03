@@ -105,33 +105,46 @@ Cette fonction duplique un descripteur de fichier ouvert, créant ainsi un nouve
 Similaire à dup, dup2 duplique un descripteur de fichier ouvert mais permet de spécifier le numéro de descripteur de fichier désiré pour la duplication.
 
 ---
-#### execvp
+#### execve
 
  Cette fonction remplace l'image du processus actuel par une nouvelle image de processus spécifiée par le chemin vers un fichier exécutable. Elle charge et exécute un nouveau programme dans l'espace de processus actuel.
 
-> __man execvp__
+> __man execve__
 --
-<ins>exe</ins>: Short for "execute", indicating that the function is responsible for executing a program.
+<ins>exec</ins>: Short for "execute", indicating that the function is responsible for executing a program.
 <ins>v</ins>: Stands for "vector", indicating that the function takes a vector (array) of arguments.
-<ins>p</ins>: Stands for "path", indicating that the function searches for the executable file using the PATH environment variable.
+<ins>e</ins>: Stands for "environment", specifies the environment variables for the new program. This argument is typically set to NULL to inherit the current environment.
 --
 #include <unistd.h>
-int execvp(const char *file, char *const argv[]);
+int execve(const char *pathname, char *const argv[], char *const envp[]);
 --
 The  __exec()__  family of functions replaces the current process image
 with a new process image.
 --
-v - execv(), __execvp()__, execvpe()
-    The  char *const  argv[]  argument is an array of pointers to null-
-    terminated strings that represent the argument  list  available  to
-    the  new  program.  The first argument, by convention, should point
-    to the filename associated with the file being executed.  The array
-    of pointers must be terminated by a null pointer.
+execve() executes the program referred to by pathname.  This causes
+the program that is currently being run by the calling  process  to
+be replaced with a new program, with newly initialized stack, heap,
+and (initialized and uninitialized) data segments.
+--
+pathname must be a binary executable.
+--
+argv  is  an array of pointers to strings passed to the new program
+as its command-line arguments.  By convention, the first  of  these
+strings (i.e., argv[0]) should contain the filename associated with
+the file being executed.  The argv array must be  terminated  by  a
+NULL pointer.  (Thus, in the new program, argv[argc] will be NULL.)
+--
+envp is an array of pointers to strings, conventionally of the form
+key=value, which are passed as the environment of the new  program.
+The envp array must be terminated by a NULL pointer.
+The argument vector and environment can be accessed by the new pro‐
+gram's main function, when it is defined as:
+__int main(int argc, char *argv[], char *envp[])__
 --
 __RETURN VALUE__
 --
 <ins>The exec() functions return only if an error has occurred.</ins>
-The return value is -1, and errno is set to indicate the error.
+On error, the return value is -1, and errno is set to indicate the error.
 
 ---
 #### fork
@@ -362,19 +375,22 @@ __GENERAL :__
 [x] Argc doit être 5.
 
 __FILE 1 :__
-[x] L'argument 1 ne doit pas être une chaine de caractères vide.
-[x] L'argument 1 ne doit pas être une chaine contenant que des espaces.
-[x] L'argument 1 ne doit contenir que des caracteres autorisés.
-[x] L'argument 1 ne doit pas contenir plus de 255 caractères.
-[x] L'argument 1 doit être un chemin de fichier ou dossier existant.
-[x] L'argument 1 doit être le chemin d'un fichier et non d'un dossier.
-[x] L'argument 1 doit avoir la permission READ.
+[x] L'argv[1] ne doit pas être une chaine de caractères vide.
+[x] L'argv[1] ne doit pas être une chaine ne contenant que des espaces.
+[x] L'argv[1] ne doit contenir que des caracteres autorisés.
+[x] L'argv[1] ne doit pas contenir plus de 255 caractères.
+[x] L'argv[1] doit être un chemin de fichier ou dossier existant.
+[x] L'argv[1] doit être le chemin d'un fichier et non d'un dossier.
+[x] L'argv[1] doit avoir un chemin de dossiers aux permissions READ et EXEC.
+[x] L'argv[1] doit avoir la permission READ.
+
+__COMMAND 1 :__
+[ ] L'argv[2] ne doit pas être vide.
+[ ] L'argv[2] ne doit pas être une chaine ne contenant que des espaces.
+[ ] L'argv[2] doit être une commande shell valide.
 
 __FILE 2 :__
-[ ] L'argument 4 doit être un nom de fichier ou document ou un chemin, et qui doit être créé s'il n'existe pas.
-[ ] L'argument 4, s'il existe déjà, doit être un fichier et non un dossier.
+[ ] L'argv[4] doit être un nom de fichier ou document ou un chemin, et qui doit être créé s'il n'existe pas.
+[ ] L'argv[4], s'il existe déjà, doit être un fichier et non un dossier.
 [ ] Si un dossier du nom de l'argument 4 existe, peut-être créer un fichier.
 [ ] Le contenu de l'argument 4 doit être vérifié pour savoir s'il faut écrire dedans.
-
-__COMMANDS :__
-[ ] Les arguments 2 et 3 doivent être des commandes shell valides.

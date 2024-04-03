@@ -6,7 +6,7 @@
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/03 10:10:21 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/03 18:02:25 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "Libft/libft.h"
 # include <sys/wait.h>
-// REMOVE below !!
-# include <stdio.h>
 
 typedef struct s_args
 {
@@ -33,9 +31,9 @@ typedef struct s_args
 	bool	fd2_isfile;
 }			t_args;
 
-int		main(int argc, char *argv[]);
-/* PARSING */
-void	parse_args(char **tab);
+int	main(int argc, char *argv[], char *envp[]);
+/* PARSING F1 */
+void	parse_args(char *argv[], char *envp[]);
 void	parse_file1(char *file);
 void	check_filename_isempty(char *file);
 void	check_filename_isspace(char *file);
@@ -45,7 +43,11 @@ void	check_filename_len(char *file);
 void	check_file1_exists(char *file);
 void	check_file1_isdir(char *file);
 void	check_file1_permissions(char *file);
-/* TESTS */
-int		main_test_argc(void);
+void	check_folder_permissions(char *file);
+/* PARSING CMD1 */
+void	parse_command1(char *arg, char *envp[]);
+void	check_command_isempty(char *cmd);
+void	check_command_isspace(char *cmd);
+void	check_command_executability(char *cmd, char *envp[]);
 
 #endif

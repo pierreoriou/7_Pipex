@@ -6,13 +6,14 @@
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 11:52:23 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/02 13:37:56 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/03 18:01:35 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	parse_args(char **tab)
+void	parse_args(char *argv[], char *envp[])
 {
-	parse_file1(tab[1]);
+	parse_file1(argv[1]);
+	parse_command1(argv[2], envp);
 }

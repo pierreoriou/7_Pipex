@@ -6,7 +6,7 @@
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:00:45 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/02 16:47:53 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/03 14:27:34 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ void	parse_file1(char *arg)
 	check_filename_characters(arg, 1);
 	file = trim_arg(arg);
 	check_filename_len(file);
-	check_file1_exists(file);
 	check_file1_isdir(file);
 	check_file1_permissions(file);
+	check_file1_exists(file);
 	printf("Allowed to READ %s.\n", file);
 	free (file);
 }

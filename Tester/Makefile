@@ -1,6 +1,10 @@
 NAME = tester
 
-SRCS = main.c \
+SRCS =	main.c \
+		fork_this.c \
+		handle_parent.c \
+		test_parsing_file1.c \
+		test_parsing_cmd1.c \
 
 OBJS_DIR = tester_objs
 
