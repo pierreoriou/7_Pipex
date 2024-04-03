@@ -6,7 +6,7 @@
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/02 18:07:53 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/03 10:10:21 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PIPEX_H
 
 # include "Libft/libft.h"
+# include <sys/wait.h>
 // REMOVE below !!
 # include <stdio.h>
 

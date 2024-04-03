@@ -6,20 +6,36 @@
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 17:57:41 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/02 19:50:29 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/03 10:46:01 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tests.h"
+#include "tester.h"
 
 int main(void)
 {
-    // Execute your pipex program with incorrect number of arguments
-    // char *args[] = {"./pipex", "file1", "cmd1", "file2", "cmd2", "aze"};
-    // execvp("./pipex", args);
+    pid_t   pid;
+    int     wstatus;
+    char *args[] = {"./pipex", "file1", "cmd1", "file2", "cmd2", NULL};
 
-    // // If execvp returns, it means an error occurred
-    // // perror("Test failed");
-    // exit(EXIT_FAILURE);
+    pid = fork();
+    if (pid == -1)
+    {
+        perror("Fork failed");
+        exit (EXIT_FAILURE);
+    }
+    else if (pid == 0)
+    {
+        if (execvp("./pipex", args) == -1)
+            printf("OK ");
+    }
+    else
+    {
+        if (wait)
+    }
+
+    // If execvp returns, it means an error occurred
+    perror("Test failed");
     printf("hello from testing\n");
+    return (0);
 }

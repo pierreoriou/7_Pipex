@@ -20,9 +20,9 @@ OBJS_DIR = obj
 
 LIBFT_PATH = ./Libft
 
-TEST_PATH = ./Tests
+TEST_PATH = ./Tester
 
-TEST_NAME = test_pipex
+TEST_NAME = tester
 
 LIBFT_NAME = libft.a
 
@@ -43,7 +43,8 @@ ${LIBFT_PATH}/${LIBFT_NAME}:
 all: ${NAME}
 
 test: all
-	make -C ${TEST_PATH}
+	cp ${NAME} ${TEST_PATH}
+	make run -C ${TEST_PATH}
 
 clean:
 	rm -rf ${OBJS_DIR}
@@ -54,6 +55,7 @@ fclean: clean
 	rm -f ${NAME}
 	rm -f ${LIBFT_PATH}/${LIBFT_NAME}
 	rm -f ${TEST_NAME}
+	rm -f ${TEST_PATH}/${TEST_NAME}
 
 re: fclean all
 

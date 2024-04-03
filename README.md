@@ -65,42 +65,261 @@ Ainsi, dans ce cas précis, l'utilisation de < infile est superflue car elle n'a
 
 #### E. Les nouvelles fonctions autorisées
 __
-- __access__ : Cette fonction vérifie si le processus appelant peut accéder à un fichier (si le fichier existe et si le processus a les permissions appropriées pour le lire, l'écrire ou l'exécuter).
+#### access
+Cette fonction vérifie si le processus appelant peut accéder à un fichier (si le fichier existe et si le processus a les permissions appropriées pour le lire, l'écrire ou l'exécuter).
 
-> __#include <unistd.h>__
-__int access(const char *pathname, int mode);__
-
-> __MAN ACCESS__ : access()  checks  whether  the  calling process can access
+> __man access__
+_--_
+#include <unistd.h>
+int access(const char *pathname, int mode);
+_--_
+__access()__ checks  whether  the  calling process can access
 the file pathname. If pathname is a symbolic link, it is dereferenced.
+_--_
 The mode specifies the accessibility check(s) to be performed,
 and is either  the value  F_OK, or a mask consisting of the bitwise OR
-of one or more of R_OK, W_OK, and X_OK.  F_OK tests for the existence
-of the file.  R_OK, W_OK, and  X_OK  test whether  the file exists and
+of one or more of R_OK, W_OK, and X_OK.
+_--_
+F_OK tests for the existence of the file.
+_--_
+R_OK, W_OK, and  X_OK  test whether  the file exists and
 grants read, write, and execute permissions, respectively.
-
-> __RETURN VALUE__
+_--_
+__RETURN VALUE__
+_--_
 _<ins>On  success</ins>  (all requested permissions granted, or mode is F_OK and
 the file exists), <ins>zero is returned</ins>_.
-
-><ins>On error</ins> (at least one bit in mode asked for a  permission  that  is denied, or
+_--_
+<ins>On error</ins> (at least one bit in mode asked for a  permission  that  is denied, or
 mode is F_OK and the file does not exist, or some other error occurred), <ins>-1 is
 returned, and errno is set appropriately</ins>.
 
-- __dup__ : Cette fonction duplique un descripteur de fichier ouvert, créant ainsi un nouveau descripteur de fichier qui se réfère à la même description de fichier ouverte.
+---
+#### dup
 
-- __dup2__ : Similaire à dup, dup2 duplique un descripteur de fichier ouvert mais permet de spécifier le numéro de descripteur de fichier désiré pour la duplication.
+Cette fonction duplique un descripteur de fichier ouvert, créant ainsi un nouveau descripteur de fichier qui se réfère à la même description de fichier ouverte.
 
-- __execve__ : Cette fonction remplace l'image du processus actuel par une nouvelle image de processus spécifiée par le chemin vers un fichier exécutable. Elle charge et exécute un nouveau programme dans l'espace de processus actuel.
+---
+#### dup2
 
-- __fork__ : Cette fonction crée un nouveau processus (processus enfant) en dupliquant le processus appelant (processus parent). Après un fork réussi, deux processus sont créés - le parent et l'enfant - qui continuent l'exécution à partir du point d'appel du fork.
+Similaire à dup, dup2 duplique un descripteur de fichier ouvert mais permet de spécifier le numéro de descripteur de fichier désiré pour la duplication.
 
-- __pipe__ : Cette fonction crée un tube (pipe), qui est un canal de communication unidirectionnel permettant à la sortie d'un processus d'être utilisée en tant qu'entrée d'un autre processus.
+---
+#### execvp
 
-- __unlink__ : Cette fonction supprime un nom du système de fichiers. Si le nom est le dernier lien vers le fichier et qu'aucun processus n'a le fichier ouvert, le fichier est supprimé et l'espace qu'il occupait est libéré.
+ Cette fonction remplace l'image du processus actuel par une nouvelle image de processus spécifiée par le chemin vers un fichier exécutable. Elle charge et exécute un nouveau programme dans l'espace de processus actuel.
 
-- __wait__ : Cette fonction permet au processus appelant d'attendre qu'un de ses processus enfants se termine. Si un processus enfant s'est déjà terminé au moment où la fonction wait est appelée, elle retourne immédiatement.
+> __man execvp__
+--
+<ins>exe</ins>: Short for "execute", indicating that the function is responsible for executing a program.
+<ins>v</ins>: Stands for "vector", indicating that the function takes a vector (array) of arguments.
+<ins>p</ins>: Stands for "path", indicating that the function searches for the executable file using the PATH environment variable.
+--
+#include <unistd.h>
+int execvp(const char *file, char *const argv[]);
+--
+The  __exec()__  family of functions replaces the current process image
+with a new process image.
+--
+v - execv(), __execvp()__, execvpe()
+    The  char *const  argv[]  argument is an array of pointers to null-
+    terminated strings that represent the argument  list  available  to
+    the  new  program.  The first argument, by convention, should point
+    to the filename associated with the file being executed.  The array
+    of pointers must be terminated by a null pointer.
+--
+__RETURN VALUE__
+--
+<ins>The exec() functions return only if an error has occurred.</ins>
+The return value is -1, and errno is set to indicate the error.
 
-- __waitpid__ : Cette fonction est similaire à wait, mais permet au processus appelant d'attendre un processus enfant spécifique spécifié par son identifiant de processus (PID). Elle offre plus de contrôle sur le processus enfant à attendre.
+---
+#### fork
+
+ Cette fonction crée un nouveau processus (processus enfant) en dupliquant le processus appelant (processus parent). Après un fork réussi, deux processus sont créés - le parent et l'enfant - qui continuent l'exécution à partir du point d'appel du fork.
+
+> __man fork__
+--
+#include <sys/types.h>
+#include <unistd.h>
+pid_t fork(void);
+--
+The  child  process  and  the parent process run in separate memory
+spaces.  At the time of fork() both memory  spaces  have  the  same
+content.
+--
+__The  child  process is an exact duplicate of the parent process ex‐
+cept for the following points:__
+-The child has its own unique process ID, and this PID  does  not
+match  the ID of any existing process group (setpgid(2)) or ses‐
+sion.
+-The child's parent process  ID  is  the  same  as  the  parent's
+process ID.
+-The  child's set of pending signals is initially empty (sigpend‐
+ing(2)).
+--
+__The process attributes in the preceding list are all  specified  in
+POSIX.1.  The parent and child also differ with respect to the fol‐
+lowing Linux-specific process attributes:__
+-The  termination  signal  of  the  child  is always SIGCHLD (see
+clone(2)).
+--
+__Note the following further points:__
+-The  child  inherits copies of the parent's set of open file de‐
+scriptors.  Each file descriptor in the child refers to the same
+open  file  description  (see open(2)) as the corresponding file
+descriptor in the parent.  This means that the two file descrip‐
+tors  share  open  file  status  flags, file offset, and signal-
+driven I/O attributes  (see  the  description  of  F_SETOWN  and
+F_SETSIG in fcntl(2)).
+--
+__RETURN VALUE__
+--
+<ins>On success</ins>, the PID of the child process is returned in the parent,
+and  0 is returned in the child.
+<ins>On failure</ins>, -1 is returned in the parent, no child process is created,
+and  errno  is  set  appropriately.
+
+---
+#### pipe
+Cette fonction crée un tube (pipe), qui est un canal de communication unidirectionnel permettant à la sortie d'un processus d'être utilisée en tant qu'entrée d'un autre processus.
+
+---
+#### unlink
+Cette fonction supprime un nom du système de fichiers. Si le nom est le dernier lien vers le fichier et qu'aucun processus n'a le fichier ouvert, le fichier est supprimé et l'espace qu'il occupait est libéré.
+
+---
+#### wait and waitpid
+__wait__ permet au processus appelant d'attendre qu'un de ses processus enfants se termine. Si un processus enfant s'est déjà terminé au moment où la fonction wait est appelée, elle retourne immédiatement.
+__waitpid__ est similaire à wait, mais permet au processus appelant d'attendre un processus enfant spécifique spécifié par son identifiant de processus (PID). Elle offre plus de contrôle sur le processus enfant à attendre.
+
+> __man waitpid__
+--
+#include <sys/types.h>
+#include <sys/wait.h>
+pid_t wait(int *wstatus);
+pid_t waitpid(pid_t pid, int *wstatus, int options);
+--
+All of these system calls are used to wait for state changes  in  a
+child  of  the  calling  process,  and obtain information about the
+child whose state has changed.  A state change is considered to be:
+the  child  terminated;  the  child was stopped by a signal; or the
+child was resumed by a signal.  In the case of a terminated  child,
+performing  a wait allows the system to release the resources asso‐
+ciated with the child; if a wait is not performed, then the  termi‐
+nated child remains in a "zombie" state (see NOTES below).
+--
+If a child has already changed state, then these calls return imme‐
+diately.  Otherwise, they block until either a child changes  state
+or a signal handler interrupts the call (assuming that system calls
+are not automatically restarted using the SA_RESTART flag of sigac‐
+tion(2)).   In  the remainder of this page, a child whose state has
+changed and which has not yet been waited upon by one of these sys‐
+tem calls is termed waitable.
+The wait() system call suspends execution of the calling thread un‐
+til one of its children terminates.   The  call  wait(&wstatus)  is
+equivalent to:
+--
+    waitpid(-1, &wstatus, 0);
+--
+The  waitpid() system call suspends execution of the calling thread
+until a child specified by pid argument has changed state.  By  de‐
+fault,  waitpid()  waits only for terminated children, but this be‐
+havior is modifiable via the options argument, as described below.
+--
+The value of pid can be:
+--
+__< -1__   meaning wait for any child process whose process group ID is
+        equal to the absolute value of pid.
+--
+__-1__     meaning wait for any child process.
+--
+__0__      meaning wait for any child process whose process group ID is
+        equal to that of the calling process at the time of the call
+        to waitpid().
+--
+__> 0__    meaning  wait for the child whose process ID is equal to the
+        value of pid.
+--
+The value of options is an OR of zero or more of the following con‐
+stants:
+(_When you pass 0 as the value for the options parameter in the waitpid()
+function, it means that no options are specified. In other words, it
+indicates that the function should behave in its default manner without
+any additional behavior specified by the options._)
+--
+__WNOHANG__
+        return immediately if no child has exited.
+--
+__WUNTRACED__
+        also  return  if  a  child  has  stopped (but not traced via
+        ptrace(2)).  Status for traced children which  have  stopped
+        is provided even if this option is not specified.
+--
+__WCONTINUED (since Linux 2.6.10)__
+        also  return if a stopped child has been resumed by delivery
+        of SIGCONT.
+--
+(For Linux-only options, see below.)
+If wstatus is not NULL, wait() and waitpid() store status  informa‐
+tion  in the int to which it points.  This integer can be inspected
+with the following macros (which take the integer itself as an  ar‐
+gument, not a pointer to it, as is done in wait() and waitpid()!):
+--
+__WIFEXITED(wstatus)__
+        returns  true  if the child terminated normally, that is, by
+        calling exit(3) or _exit(2), or by returning from main().
+--
+__WEXITSTATUS(wstatus)__
+        returns the exit status of the child.  This consists of  the
+        least  significant  8  bits  of the status argument that the
+        child specified in a call to exit(3) or _exit(2) or  as  the
+        argument  for  a  return  statement  in  main().  This macro
+        should be employed only if WIFEXITED returned true.
+--
+__WIFSIGNALED(wstatus)__
+        returns true if the child process was terminated by  a  sig‐
+        nal.
+--
+__WTERMSIG(wstatus)__
+        returns  the  number  of  the  signal  that caused the child
+        process to terminate.  This macro should be employed only if
+        WIFSIGNALED returned true.
+--
+__WCOREDUMP(wstatus)__
+        returns  true  if  the  child  produced  a  core  dump  (see
+        core(5)).  This macro should be employed only if WIFSIGNALED
+        returned true.
+        This  macro  is  not  specified  in  POSIX.1-2001 and is not
+        available on some UNIX implementations (e.g.,  AIX,  SunOS).
+        Therefore,  enclose its use inside #ifdef WCOREDUMP ... #en‐
+        dif.
+--
+__WIFSTOPPED(wstatus)__
+        returns true if the child process was stopped by delivery of
+        a  signal;  this is possible only if the call was done using
+        WUNTRACED or when the child is being traced (see ptrace(2)).
+--
+__WSTOPSIG(wstatus)__
+        returns the number of the signal which caused the  child  to
+        stop.   This macro should be employed only if WIFSTOPPED re‐
+        turned true.
+--
+__WIFCONTINUED(wstatus)__
+        (since Linux 2.6.10) returns true if the child  process  was
+        resumed by delivery of SIGCONT.
+--
+__RETURN VALUE__
+--
+__wait :__
+<ins>On success</ins>, returns the process ID of the terminated child.
+<ins>On error</ins>, -1 is returned.
+__waitpid :__
+<ins>On success</ins>, returns the process ID of  the  child  whose
+state  has  changed;  if  WNOHANG  was  specified  and  one or more
+child(ren) specified by pid exist, but have not yet changed  state,
+then 0 is returned.
+<ins>On error</ins>, -1 is returned.
 
 #### F. L'enjeu majeur : la manipulation de processus
 __
