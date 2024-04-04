@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_parsing_file1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:18:02 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/03 16:43:21 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:22:10 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ void	test1_parsing_file1(void)
 	for (size_t i = 0; i < sizeof(args) / sizeof(args[0]); i++)
 	{
 		fork_this(args[i]);
-		// sleep(1);
+		sleep(1);
 	}
 }

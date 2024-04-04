@@ -375,22 +375,22 @@ __GENERAL :__
 [x] Argc doit être 5.
 
 __FILE 1 :__
-[x] L'argv[1] ne doit pas être une chaine de caractères vide.
-[x] L'argv[1] ne doit pas être une chaine ne contenant que des espaces.
-[x] L'argv[1] ne doit contenir que des caracteres autorisés.
-[x] L'argv[1] ne doit pas contenir plus de 255 caractères.
-[x] L'argv[1] doit être un chemin de fichier ou dossier existant.
-[x] L'argv[1] doit être le chemin d'un fichier et non d'un dossier.
-[x] L'argv[1] doit avoir un chemin de dossiers aux permissions READ et EXEC.
-[x] L'argv[1] doit avoir la permission READ.
+[x] L'argv[1] ne doit pas être une chaine de caractères vide.  
+[x] L'argv[1] ne doit pas être une chaine ne contenant que des espaces.  
+[x] L'argv[1] ne doit contenir que des caracteres autorisés.  
+[x] L'argv[1] ne doit pas contenir plus de 255 caractères.  
+[x] L'argv[1] doit être un chemin de fichier ou dossier existant.  
+[x] L'argv[1] doit être le chemin d'un fichier et non d'un dossier.  
+[x] L'argv[1] doit avoir un chemin de dossiers aux permissions READ et EXEC.  
+[x] L'argv[1] doit avoir la permission READ.  
 
 __COMMAND 1 :__
-[ ] L'argv[2] ne doit pas être vide.
-[ ] L'argv[2] ne doit pas être une chaine ne contenant que des espaces.
-[ ] L'argv[2] doit être une commande shell valide.
+[ ] L'argv[2] ne doit pas être vide.  
+[ ] L'argv[2] ne doit pas être une chaine ne contenant que des espaces.  
+[ ] L'argv[2] doit être une commande shell valide.  
 
 __FILE 2 :__
-[ ] L'argv[4] doit être un nom de fichier ou document ou un chemin, et qui doit être créé s'il n'existe pas.
+[ ] L'argv[4] doit être un nom de fichier ou document ou un chemin, et qui doit être créé s'il n'existe pas.  
 [ ] L'argv[4], s'il existe déjà, doit être un fichier et non un dossier.
-[ ] Si un dossier du nom de l'argument 4 existe, peut-être créer un fichier.
-[ ] Le contenu de l'argument 4 doit être vérifié pour savoir s'il faut écrire dedans.
+[ ] Si un dossier du nom de l'argument 4 existe, peut-être créer un fichier.  
+[ ] Le contenu de l'argument 4 doit être vérifié pour savoir s'il faut écrire dedans.  

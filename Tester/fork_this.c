@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fork_this.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 11:25:47 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/03 11:58:02 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:33:51 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	fork_this(char *args[])
     }
 	else if (pid == 0)
     {
-        execvp("./pipex", args);
+        execvp("../piipex", args);
         perror("Test failed");
         exit (EXIT_FAILURE);
     }

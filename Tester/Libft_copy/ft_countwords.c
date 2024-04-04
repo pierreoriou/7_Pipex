@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 09:53:07 by poriou            #+#    #+#             */
-/*   Updated: 2024/01/22 11:35:54 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/04 17:14:44 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	ft_countwords(char *str, char *charset)
 	int	word;
 	int	i;
 
+	if (!str || !charset)
+		return (0);
 	count = 0;
 	word = 1;
 	i = 0;
