@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 18:03:30 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/03 13:50:26 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/09 10:02:35 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 void	*ft_memmove(void *dest, const void *src, size_t n);
 void	*ft_memset(void *s, int c, size_t n);
+void	*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 void	ft_bzero(void *s, size_t n);
 void	ft_free_tab(char **tab);
 void	ft_putchar_fd(char c, int fd);

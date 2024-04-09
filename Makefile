@@ -16,6 +16,8 @@ SRCS =	main.c \
 		parsing/check_command_isempty.c \
 		parsing/check_command_isspace.c \
 		parsing/check_command_executability.c \
+		init/init_args.c \
+		print/print_args.c \
 
 CC = gcc -g3
 
