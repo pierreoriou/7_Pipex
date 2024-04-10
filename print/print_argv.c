@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_args.c                                       :+:      :+:    :+:   */
+/*   print_argv.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 19:46:43 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 19:52:28 by peoriou          ###   ########.fr       */
+/*   Created: 2024/04/09 10:15:06 by poriou            #+#    #+#             */
+/*   Updated: 2024/04/10 19:46:12 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	print_args(t_args *args)
+void	print_argv(char **arguments)
 {
-	ft_printf(1, "%33?\n", "--PRINT ARGS--");
-	printf("args->file1 = %s\n", args->file1);
-	printf("args->file2 = %s\n", args->file2);
-	print_commands(args->cmd);
+	int	i;
+
+	i = 0;
+	while (arguments[i])
+	{
+		printf("arguments[%d] = %s\n", i, arguments[i]);
+		i++;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 17:12:49 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:49:14 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_args
 }			t_args;
 
 int		main(int argc, char *argv[], char *envp[]);
-void	init_args(t_args *args);
+void	init_args(t_args *args, int argc, char *argv[]);
 pid_t	initiate_fork(void);
 void	initiate_waitpid(pid_t pid, int *wstatus);
 void	initiate_pipe(int pipefd[2]);
@@ -45,11 +45,13 @@ void	exec_child2_cmd(int outfile_fd, char *cmd, char *envp[], int pipefd[]);
 /* GETTERS */
 char	*get_envp_path(char *envp[]);
 char	*get_cmd_path(char *cmd, char *path);
-/* PARENT */
-void	check_command_executability(t_args *args, char *cmd, char *envp[]);
 /* PRINTS */
-void	print_args(char **arguments);
+void	print_argv(char **arguments);
+void	print_commands(t_cmd *cmd);
+void	print_args(t_args *args);
 void	print_cpid_status(int wstatus);
+/* FREE */
+void	free_args(t_args *args);
 
 #endif
 
@@ -64,3 +66,4 @@ void	print_cpid_status(int wstatus);
 // void	check_filename_len(char *file);
 // void	check_file1_exists(char *file);
 // void	check_file1_isdir(char *file);
+// void	check_command_executability(t_args *args, char *cmd, char *envp[]);

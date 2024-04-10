@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:03:07 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 16:42:07 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:54:13 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	main(int argc, char *argv[], char *envp[])
 		ft_putendl_fd("Usage: ./pipex file1 cmd1 cmd2 file2", 2);
 		exit (EXIT_FAILURE);
 	}
-	init_args(&args);
+	init_args(&args, argc, argv);
+	print_args(&args);
 	initiate_pipe(pipefd);
 	cpid1 = initiate_fork();
 	if (cpid1 == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:30:45 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/10 17:36:35 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/10 19:50:56 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,25 @@ t_cmd	*cmdnew(char *content)
 	new = (t_cmd *)malloc(sizeof(t_cmd));
 	if (!new)
 		return (NULL);
-	new->content = ft_split(content);
+	new->content = ft_split(content, " ");
 	if (!new->content)
 		return (NULL);
 	new->next = NULL;
 	return (new);
+}
+
+void	cmd_addback(t_cmd **cmd, t_cmd *new)
+{
+	if (!cmd)
+		return ;
+	if (!*cmd)
+	{
+		*cmd = new;
+		return ;
+	}
+	while ((*cmd)->next)
+		*cmd = (*cmd)->next;
+	(*cmd)->next = new;
 }
 
 void	init_args(t_args *args, int argc, char *argv[])
@@ -37,9 +51,13 @@ void	init_args(t_args *args, int argc, char *argv[])
 	i = 2;
 	while (i < (argc - 1))
 	{
-		new = cmdnew(argv[2]);
+		new = cmdnew(argv[i]);
+		if (!new)
+		{
+			free_args(args);
+			exit (EXIT_FAILURE);
+		}
 		cmd_addback(&(args->cmd), new);
 		i++;
 	}
-	// protec
 }

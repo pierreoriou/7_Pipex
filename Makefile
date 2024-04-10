@@ -7,8 +7,11 @@ SRCS =	main.c \
 		init/init_args.c \
 		exec_cpid1.c \
 		exec_cpid2.c \
+		free_args.c \
 		getters/get_envp_path.c \
 		getters/get_cmd_path.c \
+		print/print_argv.c \
+		print/print_commands.c \
 		print/print_args.c \
 		print/print_cpid_status.c \
 		# parsing/check_file1_permissions.c \

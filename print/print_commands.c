@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_args.c                                       :+:      :+:    :+:   */
+/*   print_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 19:46:43 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 19:52:28 by peoriou          ###   ########.fr       */
+/*   Created: 2024/04/10 19:15:14 by peoriou           #+#    #+#             */
+/*   Updated: 2024/04/10 19:41:09 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	print_args(t_args *args)
+void	print_commands(t_cmd *cmd)
 {
-	ft_printf(1, "%33?\n", "--PRINT ARGS--");
-	printf("args->file1 = %s\n", args->file1);
-	printf("args->file2 = %s\n", args->file2);
-	print_commands(args->cmd);
+	int	i;
+	int	count;
+
+	if (!cmd)
+		return ;
+	count = 1;
+	printf("--------------\n");
+	while (cmd)
+	{
+		i = 0;
+		ft_printf(1, "%33? %d:\n", "Commande", count);
+		while (cmd->content[i])
+		{
+			printf("# cmd->content[%d]: %s\n", i, cmd->content[i]);
+			i++;
+		}
+		printf("--------------\n");
+		cmd = cmd->next;
+		count++;
+	}
 }
