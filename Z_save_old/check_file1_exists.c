@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_command1.c                                   :+:      :+:    :+:   */
+/*   check_file1_exists.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 16:09:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/09 13:11:37 by poriou           ###   ########.fr       */
+/*   Created: 2024/04/02 12:39:29 by peoriou           #+#    #+#             */
+/*   Updated: 2024/04/10 08:16:14 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	parse_command1(char *arg, t_args *args, char *envp[])
+void	check_file1_exists(char *file)
 {
-	check_command_isempty(arg);
-	check_command_isspace(arg);
-	check_command_executability(arg, args, envp);
+	if (access(file, F_OK) == -1)
+		perror("Error file1");
 }

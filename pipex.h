@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/09 14:57:39 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/10 08:38:26 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,27 @@ typedef struct s_args
 	bool	cmd2_ok;
 }			t_args;
 
-int	main(int argc, char *argv[], char *envp[]);
-/* PARSING F1 */
+int		main(int argc, char *argv[], char *envp[]);
 void	init_args(t_args *args);
-void	parse_args(char *argv[], t_args *args, char *envp[]);
-void	parse_file1(char *arg, t_args *args);
+/* CHILD */
+int		exec_cpid(t_args *args, char *argv[], char *envp[]);
+void	access_child_file(t_args *args, char *arg);
+void	exec_child_command(t_args *args, char *arg, char *envp[]);
+/* GETTERS */
+char	*get_envp_path(char *envp[]);
+char	*get_cmd_path(char *cmd, char *path);
+/* PARENT */
+void	check_command_executability(t_args *args, char *cmd, char *envp[]);
+/* PRINTS */
+void	print_args(char **arguments);
+void	print_cpid_status(int wstatus);
+
+#endif
+
+// void	check_file1_permissions(char *file);
+// void	check_folder_permissions(char *file);
+// void	check_command_isempty(char *cmd);
+// void	check_command_isspace(char *cmd);
 // void	check_filename_isempty(char *file);
 // void	check_filename_isspace(char *file);
 // void	check_filename_characters(char *file, int n);
@@ -42,14 +58,3 @@ void	parse_file1(char *arg, t_args *args);
 // void	check_filename_len(char *file);
 // void	check_file1_exists(char *file);
 // void	check_file1_isdir(char *file);
-void	check_file1_permissions(char *file);
-void	check_folder_permissions(char *file);
-/* PARSING CMD1 */
-void	parse_command1(char *arg, t_args *args, char *envp[]);
-void	check_command_isempty(char *cmd);
-void	check_command_isspace(char *cmd);
-void	check_command_executability(char *cmd, t_args *args, char *envp[]);
-/* PRINTS */
-void	print_args(char **arguments);
-
-#endif

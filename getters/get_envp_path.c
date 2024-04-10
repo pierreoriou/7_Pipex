@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file_isdir.c                                 :+:      :+:    :+:   */
+/*   get_envp_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 12:51:31 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/02 14:26:35 by peoriou          ###   ########.fr       */
+/*   Created: 2024/04/03 16:26:33 by peoriou           #+#    #+#             */
+/*   Updated: 2024/04/10 08:38:19 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	check_file1_isdir(char *file)
+char	*get_envp_path(char *envp[])
 {
-	int	fd;
+	int	i;
 
-	fd = open(file, __O_DIRECTORY);
-	if (fd != -1)
+	i = 0;
+	while (envp[i])
 	{
-		free (file);
-		close (fd);
-		ft_putendl_fd("Argument is a directory, when file expected.", 2);
-		ft_putendl_fd("Usage: ./pipex file1 cmd1 cmd2 file2", 2);
-		exit (EXIT_FAILURE);
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			return (envp[i] + 5);
+		i++;
 	}
+	return (NULL);
 }

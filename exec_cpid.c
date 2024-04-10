@@ -1,69 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command_executability.c                      :+:      :+:    :+:   */
+/*   exec_cpid.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/03 16:26:33 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/09 12:42:14 by poriou           ###   ########.fr       */
+/*   Created: 2024/04/10 07:34:13 by peoriou           #+#    #+#             */
+/*   Updated: 2024/04/10 08:42:52 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex.h"
 
-char	*get_envp_path(char *envp[])
+void	access_child_file(t_args *args, char *arg)
 {
-	int	i;
-
-	i = 0;
-	while (envp[i])
+	if (access(arg, F_OK) == -1)
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			return (envp[i] + 5);
-		i++;
+		ft_printf(2, "zsh: %s: %s\n", strerror(errno), arg);
+		return ;
 	}
-	return (NULL);
+	if (access(arg, R_OK) == -1)
+	{
+		perror("zsh");
+		return ;
+	}
+	args->file1_ok = true;
+	args->file1 = arg;
 }
 
-char	*find_cmd_path(char *cmd, char *path)
-{
-	char	**tab;
-	char	*joined_path;
-	int		i;
-
-	tab = ft_split(path, ":");
-	(void)cmd;
-	if (!tab)
-		return (NULL);
-	i = 0;
-	cmd = ft_strjoin("/", cmd);
-	if (!cmd)
-		return (NULL);
-	while (tab[i])
-	{
-		joined_path = ft_strjoin(tab[i], cmd);
-		if (!joined_path)
-		{
-			free (cmd);
-			ft_free_tab(tab);
-			return (NULL);
-		}
-		if (access(joined_path, F_OK | X_OK) == 0)
-		{
-			free (cmd);
-			ft_free_tab(tab);
-			return (joined_path);
-		}
-		free (joined_path);
-		i++;
-	}
-	free (cmd);
-	ft_free_tab(tab);
-	return (NULL);
-}
-
-void	check_command_executability(char *cmd, t_args *args, char *envp[])
+void	exec_child_cmd(t_args *args, char *cmd, char *envp[])
 {
 	char	**tab;
 	char	*all_pathes;
@@ -82,7 +47,7 @@ void	check_command_executability(char *cmd, t_args *args, char *envp[])
 		exit (1);
 	}
 	// printf("path = %s\n", all_pathes);
-	cmd_path = find_cmd_path(tab[0], all_pathes);
+	cmd_path = get_cmd_path(tab[0], all_pathes);
 	args->cmd_path_1 = cmd_path;
 	// ERROR MESSAGE !!!!!
 	// if (!cmd_path)
@@ -103,4 +68,15 @@ void	check_command_executability(char *cmd, t_args *args, char *envp[])
 	printf("cmd_path = %s\n", cmd_path);
 	// print_args(envp);
 	exit (EXIT_FAILURE);
+}
+
+int	exec_cpid(t_args *args, char *argv[], char *envp[])
+{
+	access_child_file(args, argv[1]);
+	if (args->file1_ok)
+	{
+		printf("Child file accessed...\n");
+		exec_child_cmd(args, argv[2], envp);
+	}
+	return (42);
 }

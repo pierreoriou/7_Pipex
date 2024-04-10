@@ -1,23 +1,24 @@
 NAME = pipex
 
 SRCS =	main.c \
-		parsing/parse_args.c \
-		parsing/parse_file1.c \
-		parsing/check_filename_isempty.c \
-		parsing/check_filename_isspace.c \
-		parsing/check_filename_characters.c \
-		parsing/trim_arg.c \
-		parsing/check_filename_len.c \
-		parsing/check_file_exists.c \
-		parsing/check_file_isdir.c \
-		parsing/check_file1_permissions.c \
-		parsing/check_folder_permissions.c \
-		parsing/parse_command1.c \
-		parsing/check_command_isempty.c \
-		parsing/check_command_isspace.c \
-		parsing/check_command_executability.c \
 		init/init_args.c \
+		exec_cpid.c \
+		getters/get_envp_path.c \
+		getters/get_cmd_path.c \
 		print/print_args.c \
+		print/print_cpid_status.c \
+		# parsing/check_file1_permissions.c \
+		# parsing/check_folder_permissions.c \
+		# parsing/check_command_executability.c \
+		# parsing/check_command_isempty.c \
+		# parsing/check_command_isspace.c \
+		# parsing/check_filename_isempty.c \
+		# parsing/check_filename_isspace.c \
+		# parsing/check_filename_characters.c \
+		# parsing/trim_arg.c \
+		# parsing/check_filename_len.c \
+		# parsing/check_file1_exists.c \
+		# parsing/check_file1_isdir.c \
 
 CC = gcc -g3
 

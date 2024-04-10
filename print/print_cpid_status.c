@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_file_exists.c                                :+:      :+:    :+:   */
+/*   print_cpid_status.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
+/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 12:39:29 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/09 13:19:42 by poriou           ###   ########.fr       */
+/*   Created: 2024/04/10 07:54:36 by peoriou           #+#    #+#             */
+/*   Updated: 2024/04/10 08:30:44 by peoriou          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	check_file1_exists(char *file)
+void	print_cpid_status(int wstatus)
 {
-	if (access(file, F_OK) == -1)
-		perror("Error file1");
+	if (WIFEXITED(wstatus))
+		printf("Child process ended with exit status : %d.\n", WEXITSTATUS(wstatus));
+	if (WIFSIGNALED(wstatus))
+		printf("Child process ended with a signal %d.\n", WTERMSIG(wstatus));
 }
