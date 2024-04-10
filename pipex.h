@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 08:38:26 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:12:49 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,31 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 
+typedef struct s_cmd
+{
+	char			**content;
+	struct s_cmd	*next;
+}					t_cmd;
+
 
 typedef struct s_args
 {
 	char	*file1;
 	char	*file2;
-	char	*cmd_path_1;
-	char	*cmd_path_2;
-	bool	file1_ok;
-	bool	file2_ok;
-	bool	cmd1_ok;
-	bool	cmd2_ok;
+	t_cmd	*cmd;
 }			t_args;
 
 int		main(int argc, char *argv[], char *envp[]);
 void	init_args(t_args *args);
+pid_t	initiate_fork(void);
+void	initiate_waitpid(pid_t pid, int *wstatus);
+void	initiate_pipe(int pipefd[2]);
 /* CHILD */
-int		exec_cpid(t_args *args, char *argv[], char *envp[]);
-void	access_child_file(t_args *args, char *arg);
-void	exec_child_command(t_args *args, char *arg, char *envp[]);
+int		exec_cpid1(char *argv[], char *envp[], int pipefd[]);
+int		exec_cpid2(char *argv[], char *envp[], int pipefd[]);
+void	access_child1_file(char *arg);
+void	exec_child1_cmd(char *cmd, char *envp[], int pipefd[]);
+void	exec_child2_cmd(int outfile_fd, char *cmd, char *envp[], int pipefd[]);
 /* GETTERS */
 char	*get_envp_path(char *envp[]);
 char	*get_cmd_path(char *cmd, char *path);

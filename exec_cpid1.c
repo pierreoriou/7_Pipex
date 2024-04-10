@@ -1,34 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_cpid.c                                        :+:      :+:    :+:   */
+/*   exec_cpid1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 07:34:13 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 08:42:52 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/10 15:54:47 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	access_child_file(t_args *args, char *arg)
+void	access_child1_file(char *arg)
 {
 	if (access(arg, F_OK) == -1)
 	{
 		ft_printf(2, "zsh: %s: %s\n", strerror(errno), arg);
-		return ;
+		exit (1);
 	}
 	if (access(arg, R_OK) == -1)
 	{
 		perror("zsh");
-		return ;
+		exit (1);
 	}
-	args->file1_ok = true;
-	args->file1 = arg;
 }
 
-void	exec_child_cmd(t_args *args, char *cmd, char *envp[])
+void	exec_child1_cmd(char *cmd, char *envp[], int pipefd[])
 {
 	char	**tab;
 	char	*all_pathes;
@@ -46,37 +44,28 @@ void	exec_child_cmd(t_args *args, char *cmd, char *envp[])
 		ft_free_tab(tab);
 		exit (1);
 	}
-	// printf("path = %s\n", all_pathes);
 	cmd_path = get_cmd_path(tab[0], all_pathes);
-	args->cmd_path_1 = cmd_path;
-	// ERROR MESSAGE !!!!!
-	// if (!cmd_path)
-	// {
-	// 	ft_free_tab(tab);
-	// 	// msg
-	// 	exit (1);
-	// }
-
-	if (cmd_path)
-		execve(cmd_path, tab, NULL);
-	else
+	if (!cmd_path)
 	{
-		errno = 127;
-		// execve("/home/bin/grepzz", tab, NULL);
-		perror("test");
+		ft_printf(2, "zsh: command not found: %s\n", cmd);
+		return ;
 	}
-	printf("cmd_path = %s\n", cmd_path);
-	// print_args(envp);
+	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
+	{
+		perror("dup2");
+		// free what needs to be freed
+		exit (1);
+	}
+	close(pipefd[0]);
+	close(pipefd[1]);
+	execve(cmd_path, tab, NULL);
 	exit (EXIT_FAILURE);
 }
 
-int	exec_cpid(t_args *args, char *argv[], char *envp[])
+int	exec_cpid1(char *argv[], char *envp[], int pipefd[])
 {
-	access_child_file(args, argv[1]);
-	if (args->file1_ok)
-	{
-		printf("Child file accessed...\n");
-		exec_child_cmd(args, argv[2], envp);
-	}
+	printf("Child process initiated...\n");
+	access_child1_file(argv[1]);
+	exec_child1_cmd(argv[2], envp, pipefd);
 	return (42);
 }

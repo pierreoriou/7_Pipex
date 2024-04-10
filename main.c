@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:03:07 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 08:41:57 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/10 16:42:07 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 int	main(int argc, char *argv[], char *envp[])
 {
 	t_args	args;
-	pid_t	cpid;
-	pid_t	terminated_cpid;
+	pid_t	cpid1;
+	pid_t	cpid2;
 	int		wstatus;
+	int		pipefd[2];
 
 	if (argc != 5)
 	{
@@ -25,29 +26,17 @@ int	main(int argc, char *argv[], char *envp[])
 		exit (EXIT_FAILURE);
 	}
 	init_args(&args);
-	cpid = fork();
-	if (cpid < 0)
-	{
-		perror("fork");
-		exit (EXIT_FAILURE);
-	}
-	else if (cpid == 0)
-	{
-		printf("Child process initiated...\n");
-		exec_cpid(&args, argv, envp);
-		return (42);
-	}
-	else
-	{
-		terminated_cpid = waitpid(cpid, &wstatus, 0);
-		if (terminated_cpid == -1)
-			perror("waitpid");
-		printf("Back to parent process...\n");
-		print_cpid_status(wstatus);
-		// if (WIFEXITED(wstatus))
-		// 	printf("Child process ended with exit status : %d.\n", WEXITSTATUS(wstatus));
-		// if (WIFSIGNALED(wstatus))
-		// 	printf("Child process ended with a signal %d.\n", WTERMSIG(wstatus));
-	}
+	initiate_pipe(pipefd);
+	cpid1 = initiate_fork();
+	if (cpid1 == 0)
+		exec_cpid1(argv, envp, pipefd);
+	initiate_waitpid(cpid1, &wstatus);
+	cpid2 = initiate_fork();
+	if (cpid2 == 0)
+		exec_cpid2(argv, envp, pipefd);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	initiate_waitpid(cpid2, &wstatus);
+	print_cpid_status(wstatus);
 	return (0);
 }

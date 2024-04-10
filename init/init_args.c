@@ -6,20 +6,40 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:30:45 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/09 13:28:33 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/10 17:36:35 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-void	init_args(t_args *args)
+t_cmd	*cmdnew(char *content)
 {
-	args->file1 = NULL;
-	args->file2 = NULL;
-	args->cmd_path_1 = NULL;
-	args->cmd_path_2 = NULL;
-	args->file1_ok = false;
-	args->file2_ok = false;
-	args->cmd1_ok = false;
-	args->cmd2_ok = false;
+	t_cmd	*new;
+
+	new = (t_cmd *)malloc(sizeof(t_cmd));
+	if (!new)
+		return (NULL);
+	new->content = ft_split(content);
+	if (!new->content)
+		return (NULL);
+	new->next = NULL;
+	return (new);
+}
+
+void	init_args(t_args *args, int argc, char *argv[])
+{
+	t_cmd	*new;
+	int		i;
+
+	args->cmd = NULL;
+	args->file1 = argv[1];
+	args->file2 = argv[4];
+	i = 2;
+	while (i < (argc - 1))
+	{
+		new = cmdnew(argv[2]);
+		cmd_addback(&(args->cmd), new);
+		i++;
+	}
+	// protec
 }

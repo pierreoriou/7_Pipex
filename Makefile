@@ -1,8 +1,12 @@
 NAME = pipex
 
 SRCS =	main.c \
+		initiate_fork.c \
+		initiate_waitpid.c \
+		initiate_pipe.c \
 		init/init_args.c \
-		exec_cpid.c \
+		exec_cpid1.c \
+		exec_cpid2.c \
 		getters/get_envp_path.c \
 		getters/get_cmd_path.c \
 		print/print_args.c \
