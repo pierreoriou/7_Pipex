@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:04:11 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 19:49:14 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/11 10:46:46 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ pid_t	initiate_fork(void);
 void	initiate_waitpid(pid_t pid, int *wstatus);
 void	initiate_pipe(int pipefd[2]);
 /* CHILD */
-int		exec_cpid1(char *argv[], char *envp[], int pipefd[]);
-int		exec_cpid2(char *argv[], char *envp[], int pipefd[]);
-void	access_child1_file(char *arg);
-void	exec_child1_cmd(char *cmd, char *envp[], int pipefd[]);
-void	exec_child2_cmd(int outfile_fd, char *cmd, char *envp[], int pipefd[]);
+void	exec_cpid1(t_args args, char *envp[], int pipefd[]);
+void	exec_cpid2(t_args args, char *envp[], int pipefd[]);
 /* GETTERS */
 char	*get_envp_path(char *envp[]);
 char	*get_cmd_path(char *cmd, char *path);

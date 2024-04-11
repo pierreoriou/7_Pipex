@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 10:17:33 by poriou            #+#    #+#             */
-/*   Updated: 2024/03/04 10:38:18 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:44:04 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_print	*ft_initialize_tab(t_print *tab, int fd)
 	tab->total_length = 0;
 	tab->spaces = 0;
 	tab->fd = fd;
+	tab->error = 0;
 	return (tab);
 }
 
@@ -38,7 +39,14 @@ int	ft_printf(int fd, const char *str, ...)
 	while (str[i])
 	{
 		if (str[i] == '%')
+		{
 			i = pf_eval_format(tab, str, i + 1);
+			if (i == -1)
+			{
+				result = 0;
+				break ;
+			}
+		}
 		else
 			result += write(fd, &str[i], 1);
 		i++;

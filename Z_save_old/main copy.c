@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:03:07 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/10 19:54:13 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/11 14:32:28 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@ int	main(int argc, char *argv[], char *envp[])
 		exit (EXIT_FAILURE);
 	}
 	init_args(&args, argc, argv);
-	print_args(&args);
 	initiate_pipe(pipefd);
 	cpid1 = initiate_fork();
 	if (cpid1 == 0)
-		exec_cpid1(argv, envp, pipefd);
-	initiate_waitpid(cpid1, &wstatus);
+	{
+		close(pipefd[0]);
+		exec_cpid1(args, envp, pipefd);
+	}
 	cpid2 = initiate_fork();
 	if (cpid2 == 0)
-		exec_cpid2(argv, envp, pipefd);
+	{
+		close(pipefd[1]);
+		exec_cpid2(args, envp, pipefd);
+	}
 	close(pipefd[0]);
 	close(pipefd[1]);
 	initiate_waitpid(cpid2, &wstatus);
-	print_cpid_status(wstatus);
+	initiate_waitpid(cpid1, &wstatus);
+	// print_cpid_status(wstatus);
+	free_args(&args);
 	return (0);
 }

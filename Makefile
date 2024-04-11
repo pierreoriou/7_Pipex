@@ -14,18 +14,6 @@ SRCS =	main.c \
 		print/print_commands.c \
 		print/print_args.c \
 		print/print_cpid_status.c \
-		# parsing/check_file1_permissions.c \
-		# parsing/check_folder_permissions.c \
-		# parsing/check_command_executability.c \
-		# parsing/check_command_isempty.c \
-		# parsing/check_command_isspace.c \
-		# parsing/check_filename_isempty.c \
-		# parsing/check_filename_isspace.c \
-		# parsing/check_filename_characters.c \
-		# parsing/trim_arg.c \
-		# parsing/check_filename_len.c \
-		# parsing/check_file1_exists.c \
-		# parsing/check_file1_isdir.c \
 
 CC = gcc -g3
 

@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 18:03:30 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/09 10:02:35 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:37:02 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_print
 	int		total_length;
 	int		spaces;
 	int		fd;
+	int		error;
 }			t_print;
 
 int		ft_printf(int fd, const char *str, ...);

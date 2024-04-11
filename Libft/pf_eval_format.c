@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 12:24:04 by poriou            #+#    #+#             */
-/*   Updated: 2024/03/04 10:38:13 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/11 11:39:04 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int	pf_eval_format(t_print *tab, const char *str, int index)
 		index++;
 	}
 	pf_checkcase(tab, str[index]);
+	if (tab->error)
+		return (-1);
 	return (index);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: peoriou <peoriou@student.42.fr>            +#+  +:+       +#+        */
+/*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:30:45 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/10 19:50:56 by peoriou          ###   ########.fr       */
+/*   Updated: 2024/04/11 09:52:58 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_cmd	*cmdnew(char *content)
 
 void	cmd_addback(t_cmd **cmd, t_cmd *new)
 {
+	t_cmd	*tmp;
+
 	if (!cmd)
 		return ;
 	if (!*cmd)
@@ -35,9 +37,10 @@ void	cmd_addback(t_cmd **cmd, t_cmd *new)
 		*cmd = new;
 		return ;
 	}
-	while ((*cmd)->next)
-		*cmd = (*cmd)->next;
-	(*cmd)->next = new;
+	tmp = *cmd;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
 }
 
 void	init_args(t_args *args, int argc, char *argv[])
