@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_cmd_path.c                                     :+:      :+:    :+:   */
+/*   get_cmd1_path.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:33 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/11 16:37:02 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/12 15:19:49 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,25 @@ static void	free_cmd_and_tab(char *cmd, char **tab)
 	ft_free_tab(tab);
 }
 
-static char	*get_true_path(char **tab, char *cmd)
+static int	check_access(char *joined_path, char *cmd, char **tab)
+{
+	if (access(joined_path, F_OK) == 0)
+	{
+		free_cmd_and_tab(cmd, tab);
+		return (1);
+	}
+	return (0);
+}
+
+static char	*get_true_path(t_args args, char **tab, int pipefd, int fd)
 {
 	int		i;
 	char	*joined_path;
+	char	*cmd;
 
+	cmd = ft_strjoin("/", args.cmd->content[0]);
+	if (!cmd)
+		free_exit_cpid(args, pipefd, fd, EXIT_FAILURE);
 	i = 0;
 	while (tab[i])
 	{
@@ -30,31 +44,27 @@ static char	*get_true_path(char **tab, char *cmd)
 		if (!joined_path)
 		{
 			free_cmd_and_tab(cmd, tab);
-			return (NULL);
+			free_exit_cpid(args, pipefd, fd, EXIT_FAILURE);
 		}
-		if (access(joined_path, F_OK) == 0)
-		{
-			free_cmd_and_tab(cmd, tab);
+		if (check_access(joined_path, cmd, tab))
 			return (joined_path);
-		}
 		free (joined_path);
 		i++;
 	}
 	free_cmd_and_tab(cmd, tab);
+	ft_printf(2, "zsh: command not found: %s\n", args.cmd->content[0]);
+	free_exit_cpid(args, pipefd, fd, 127);
 	return (NULL);
 }
 
-char	*get_cmd_path(char *cmd, char *path)
+char	*get_cmd1_path(t_args args, char *path, int pipefd, int fd)
 {
 	char	**tab;
 	char	*true_path;
 
 	tab = ft_split(path, ":");
 	if (!tab)
-		return (NULL);
-	cmd = ft_strjoin("/", cmd);
-	if (!cmd)
-		return (NULL);
-	true_path = get_true_path(tab, cmd);
+		free_exit_cpid(args, pipefd, fd, EXIT_FAILURE);
+	true_path = get_true_path(args, tab, pipefd, fd);
 	return (true_path);
 }

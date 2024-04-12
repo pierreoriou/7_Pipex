@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/30 16:03:07 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/11 14:32:28 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/12 17:15:19 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int argc, char *argv[], char *envp[])
 	pid_t	cpid2;
 	int		wstatus;
 	int		pipefd[2];
+	int		status;
 
 	if (argc != 5)
 	{
@@ -26,24 +27,21 @@ int	main(int argc, char *argv[], char *envp[])
 		exit (EXIT_FAILURE);
 	}
 	init_args(&args, argc, argv);
-	initiate_pipe(pipefd);
-	cpid1 = initiate_fork();
+	initiate_pipe(pipefd, args);
+	cpid1 = initiate_fork(args, pipefd);
 	if (cpid1 == 0)
-	{
-		close(pipefd[0]);
-		exec_cpid1(args, envp, pipefd);
-	}
-	cpid2 = initiate_fork();
+		exec_cpid1(&args, envp, pipefd);
+	cpid2 = initiate_fork(args, pipefd);
 	if (cpid2 == 0)
+		exec_cpid2(&args, envp, pipefd);
+	close (pipefd[0]);
+	close (pipefd[1]);
+	status = 0;
+	while (errno != ECHILD)
 	{
-		close(pipefd[1]);
-		exec_cpid2(args, envp, pipefd);
+		if(wait(&wstatus) == cpid2)
+			status = WEXITSTATUS(wstatus);
 	}
-	close(pipefd[0]);
-	close(pipefd[1]);
-	initiate_waitpid(cpid2, &wstatus);
-	initiate_waitpid(cpid1, &wstatus);
-	// print_cpid_status(wstatus);
 	free_args(&args);
-	return (0);
+	return (status);
 }

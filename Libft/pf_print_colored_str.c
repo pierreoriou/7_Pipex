@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/20 14:58:46 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/11 11:38:21 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/12 13:19:13 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*attach_color_prefix(t_print *tab, char *color)
 		tab->error = 1;
 		return (NULL);
 	}
+	free (color);
 	return (new);
 }
 

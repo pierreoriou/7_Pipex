@@ -1,2 +1,0 @@
-USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
-poriou   1155568  0.0  0.0      0     0 pts/10   Z+   17:33   0:00 [sleep] <defunct>

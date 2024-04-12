@@ -1,21 +1,25 @@
 NAME = pipex
 
-SRCS =	main.c \
+SRCS =	main2.c \
 		initiate_fork.c \
 		initiate_waitpid.c \
 		initiate_pipe.c \
 		init/init_args.c \
+		init/init_dup2.c \
 		exec_cpid1.c \
 		exec_cpid2.c \
 		free_args.c \
+		free_exit_cpid.c \
+		close_both_fd.c \
 		getters/get_envp_path.c \
-		getters/get_cmd_path.c \
+		getters/get_cmd1_path.c \
+		getters/get_cmd2_path.c \
 		print/print_argv.c \
 		print/print_commands.c \
 		print/print_args.c \
 		print/print_cpid_status.c \
 
-CC = gcc -g3
+CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -45,24 +49,15 @@ ${LIBFT_PATH}/${LIBFT_NAME}:
 
 all: ${NAME}
 
-test: all
-	cp ${NAME} ${TEST_PATH}
-	make run -C ${TEST_PATH}
-
 clean:
 	rm -rf ${OBJS_DIR}
 	make clean -C ${LIBFT_PATH}
-	make clean -C ${TEST_PATH}
 
 fclean: clean
 	rm -f ${NAME}
 	rm -f ${LIBFT_PATH}/${LIBFT_NAME}
-	rm -f ${TEST_NAME}
-	rm -f ${TEST_PATH}/${TEST_NAME}
 
 re: fclean all
 
-retest: fclean test
-
-.PHONY: all clean fclean re test retest
+.PHONY: all clean fclean re
 

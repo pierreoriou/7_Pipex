@@ -6,13 +6,13 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:30:45 by poriou            #+#    #+#             */
-/*   Updated: 2024/04/11 09:52:58 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/12 17:09:11 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 
-t_cmd	*cmdnew(char *content)
+static t_cmd	*cmdnew(char *content)
 {
 	t_cmd	*new;
 
@@ -26,7 +26,7 @@ t_cmd	*cmdnew(char *content)
 	return (new);
 }
 
-void	cmd_addback(t_cmd **cmd, t_cmd *new)
+static void	cmd_addback(t_cmd **cmd, t_cmd *new)
 {
 	t_cmd	*tmp;
 

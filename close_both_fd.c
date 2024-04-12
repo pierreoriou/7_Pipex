@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_args.c                                       :+:      :+:    :+:   */
+/*   close_both_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 19:46:43 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/12 17:12:56 by poriou           ###   ########.fr       */
+/*   Created: 2024/04/12 10:42:57 by poriou            #+#    #+#             */
+/*   Updated: 2024/04/12 11:21:15 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex.h"
 
-void	print_args(t_args *args)
+void	close_both_fd(int fd1, int fd2)
 {
-	ft_printf(1, "%33?\n", "--PRINT ARGS--");
-	printf("args->file1 = %s\n", args->file1);
-	printf("args->file2 = %s\n", args->file2);
-	print_commands(args->cmd);
+	close (fd1);
+	close (fd2);
 }

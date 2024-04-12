@@ -6,7 +6,7 @@
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 16:26:33 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/11 17:18:04 by poriou           ###   ########.fr       */
+/*   Updated: 2024/04/12 10:04:51 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ char	*get_envp_path(char *envp[])
 {
 	int	i;
 
+	if (*envp == NULL)
+		return (NULL);
 	i = 0;
 	while (envp[i])
 	{

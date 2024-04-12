@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_args.c                                       :+:      :+:    :+:   */
+/*   free_exit_cpid.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: poriou <poriou@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/10 19:46:43 by peoriou           #+#    #+#             */
-/*   Updated: 2024/04/12 17:12:56 by poriou           ###   ########.fr       */
+/*   Created: 2024/04/12 09:44:34 by poriou            #+#    #+#             */
+/*   Updated: 2024/04/12 12:06:00 by poriou           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipex.h"
+#include "pipex.h"
 
-void	print_args(t_args *args)
+void	free_exit_cpid(t_args args, int pipefd, int fd, int exitcode)
 {
-	ft_printf(1, "%33?\n", "--PRINT ARGS--");
-	printf("args->file1 = %s\n", args->file1);
-	printf("args->file2 = %s\n", args->file2);
-	print_commands(args->cmd);
+	free_args(&args);
+	close(pipefd);
+	close(fd);
+	exit (exitcode);
 }
